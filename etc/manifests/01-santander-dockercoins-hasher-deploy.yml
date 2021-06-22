@@ -20,9 +20,22 @@ spec:
             - irb 
           image: belcebus/santander-dockercoins:0.1-hasher
           volumeMounts:
-            - mountPath: /src/hasher.rb
+            - mountPath: /src/
               name: santander-dockercoins-hasher-volume
               readOnly: true
-              subPath: hasher.rb
           workingDir: /src/
-
+      initContainers:
+        - name: santander-dockercoins-hasher-initcontainer
+          args:
+            - -c
+            - set -x; git clone https://github.com/belcebus/santander-dockercoins.git; cd santander-dockercoins; git checkout 202106; cp /hasher/hasher.rb /src/
+          command:
+            - sh 
+          image: index.docker.io/alpine/git:latest
+          volumeMounts:
+            - mountPath: /src
+              name: santander-dockercoins-hasher-volume
+              readOnly: false
+      volumes:
+        - name: santander-dockercoins-hasher-volume
+          emptyDir: {}
