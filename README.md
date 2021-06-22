@@ -11,7 +11,7 @@ docker network create hasher-network
 docker network create redis-network
 docker network create rng-network
 docker volume create redis-volume
-docker container run --detach --entrypoint docker-entrypoint.sh --name redis --network redis-network --rm --volume redis-volume:/data --workdir /data redis:6.2.4-alpine3.13@sha256:1f2550814d7288982a5b321089e3fa3a47ae86ac7c59f02409c8210b8408530d redis-server
+docker container run --detach --entrypoint docker-entrypoint.sh --name redis --network redis-network --rm --volume redis-volume:/data --workdir /data redis:6.2.4-alpine3.13@sha256:b7cb70118c9729f8dc019187a4411980418a87e6a837f4846e87130df379e2c8 redis-server
 docker container run --detach --entrypoint irb --name hasher --network hasher-network --rm --volume ${PWD}/hasher/hasher.rb:/src/hasher.rb:ro --workdir /src/ index.docker.io/belcebus/santander-dockercoins:test-hasher hasher.rb
 docker container run --detach --entrypoint python3 --name rng --network rng-network --rm --volume ${PWD}/rng/rng.py:/src/rng.py:ro --workdir /src/ index.docker.io/belcebus/santander-dockercoins:test-rng rng.py
 docker container run --detach --entrypoint node  --name webui --network redis-network --rm --volume ${PWD}/webui/webui.js:/src/webui.js:ro --volume ${PWD}/webui/files:/src/files:ro --workdir /src/ index.docker.io/belcebus/santander-dockercoins:test-webui webui.js
