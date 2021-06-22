@@ -42,4 +42,4 @@ jobs:
       - name: connecting network
         run: docker network connect rng-network worker
       - name: Cecking execution
-        run: while true; do sleep 10 && docker container logs worker 2>&1 | grep "Coin found" && break; done
+        run: while true; do sleep 10 && docker container logs worker && docker container logs worker 2>&1 | grep "Coin found" && break; done
