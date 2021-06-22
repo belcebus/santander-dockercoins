@@ -1,0 +1,9 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hasher
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
