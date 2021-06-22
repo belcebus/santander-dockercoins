@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: santander-dockercoins-rng
+spec:
+  selector:
+    matchLabels:
+      app: santander-dockercoins-rng
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: santander-dockercoins-rng
+    spec:
+      containers:
+        - name: santander-dockercoins-rng-container
+          args:
+            - rng.py
+          command:
+            - python3 
+          image: belcebus/santander-dockercoins:0.1-rng
+          volumeMounts:
+            - mountPath: /src/
+              name: santander-dockercoins-rng-volume
+              readOnly: true
+          workingDir: /src/
+      initContainers:
+        - name: santander-dockercoins-rng-initcontainer
+          args:
+            - -c
+            - cd /src/; git clone https://github.com/belcebus/santander-dockercoins.git; cd santander-dockercoins; git checkout 202106; cp rng/rng.py /src/; rm -rf santander-dockercoins
+          command:
+            - sh 
+          image: index.docker.io/alpine/git:latest
+          volumeMounts:
+            - mountPath: /src
+              name: santander-dockercoins-rng-volume
+              readOnly: false
+      volumes:
+        - name: santander-dockercoins-rng-volume
+          emptyDir: {}
