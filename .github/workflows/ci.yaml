@@ -12,7 +12,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: build hasher
-        run: docker image build --file hasher/Dockerfile --tag index.docker.io/${{env.username}}/santander-dockercoins:test-hasher hasher/
+        run: docker image build --file hasher/Dockerfile --tag index.docker.io/${username}/santander-dockercoins:test-hasher hasher/
       - name: build rng
         run: docker image build --file rng/Dockerfile --tag index.docker.io/belcebus/santander-dockercoins:test-rng rng/
       - name: build webui
