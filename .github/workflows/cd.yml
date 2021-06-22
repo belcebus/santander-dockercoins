@@ -21,7 +21,7 @@ jobs:
         run: docker image build --file worker/Dockerfile --tag index.docker.io/${USERNAME}/santander-dockercoins:$( basename ${GITHUB_REF} )-worker worker/
       - name: docker login
         run: | 
-          docker login -u ${USERNAME} -p {DOCKERHUB_TOKEN}
+          docker login -u ${USERNAME} -p ${ secrets.DOCKERHUB_TOKEN }
           docker push index.docker.io/${USERNAME}/santander-dockercoins:${GITHUB_REF}-hasher
           docker push index.docker.io/${USERNAME}/santander-dockercoins:${GITHUB_REF}-rng
           docker push index.docker.io/${USERNAME}/santander-dockercoins:${GITHUB_REF}-webui
