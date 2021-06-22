@@ -28,7 +28,7 @@ jobs:
       - name: volume for redis
         run: docker volume create redis-volume
       - name: run redis
-        run: docker container run --detach --entrypoint docker-entrypoint.sh --name redis --network redis-network --rm --volume redis-volume:/data --workdir /data redis:6.2.4-alpine3.13@sha256:1f2550814d7288982a5b321089e3fa3a47ae86ac7c59f02409c8210b8408530d redis-server
+        run: docker container run --detach --entrypoint docker-entrypoint.sh --name redis --network redis-network --rm --volume redis-volume:/data --workdir /data redis:6.2.4-alpine3.13@sha256:b7cb70118c9729f8dc019187a4411980418a87e6a837f4846e87130df379e2c8 redis-server
       - name: run hasher
         run: docker container run --detach --entrypoint irb --name hasher --network hasher-network --rm --volume ${PWD}/hasher/hasher.rb:/src/hasher.rb:ro --workdir /src/ index.docker.io/belcebus/santander-dockercoins:test-hasher hasher.rb
       - name: run rng
