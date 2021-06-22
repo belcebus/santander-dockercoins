@@ -1,6 +1,8 @@
 # santander-dockercoins
 
-'''
+[![ci](https://github.com/belcebus/santander-dockercoins/actions/workflows/ci.yaml/badge.svg?branch=202106)](https://github.com/belcebus/santander-dockercoins/actions/workflows/ci.yaml)
+
+```
 docker image build --file hasher/Dockerfile --tag index.docker.io/belcebus/santander-dockercoins:test-hasher hasher/
 docker image build --file rng/Dockerfile --tag index.docker.io/belcebus/santander-dockercoins:test-rng rng/
 docker image build --file webui/Dockerfile --tag index.docker.io/belcebus/santander-dockercoins:test-webui webui/
@@ -16,6 +18,4 @@ docker container run --detach --entrypoint node  --name webui --network redis-ne
 docker container run --detach --entrypoint python3 --name worker --network hasher-network --rm --volume ${PWD}/worker/worker.py:/src/worker.py:ro --workdir /src/ index.docker.io/belcebus/santander-dockercoins:test-worker worker.py
 docker network connect redis-network worker
 docker network connect rng-network worker
-
-
-'''
+```
