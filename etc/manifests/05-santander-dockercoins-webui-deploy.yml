@@ -20,22 +20,31 @@ spec:
             - node 
           image: belcebus/santander-dockercoins:0.1-webui
           volumeMounts:
-            - mountPath: /src/
-              name: santander-dockercoins-webui-volume
+            - mountPath: /src/files/
+              name: santander-dockercoins-webui-files-volume
+              readOnly: true            
+            - mountPath: /src/webui.js
+              name: santander-dockercoins-webui-js-volume
+              subPath: webui.js
               readOnly: true
           workingDir: /src/
       initContainers:
         - name: santander-dockercoins-webui-initcontainer
           args:
             - -c
-            - set +x; cd /src/; git clone https://github.com/belcebus/santander-dockercoins.git; cd santander-dockercoins; git checkout 202106; cp -r webui/webui.js /src/; cp -r webui/files/ /src/ ;rm -rf santander-dockercoins
+            - set +x; cd /src/; git clone https://github.com/belcebus/santander-dockercoins.git; cd santander-dockercoins; git checkout 202106; cp -r webui/files/ /src/ ;rm -rf santander-dockercoins
           command:
             - sh 
           image: index.docker.io/alpine/git:latest
           volumeMounts:
             - mountPath: /src
-              name: santander-dockercoins-webui-volume
+              name: santander-dockercoins-webui-files-volume
               readOnly: false
       volumes:
-        - name: santander-dockercoins-webui-volume
-          emptyDir: {}
+        - name: santander-dockercoins-webui-files-volume
+          emptyDir: {}        
+        - name: santander-dockercoins-webui-js-volume
+          configMap:
+            defaultMode: 400
+            name: santander-dockercoins-webui-js-cm
+            
